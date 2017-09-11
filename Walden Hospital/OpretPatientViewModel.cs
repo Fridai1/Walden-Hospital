@@ -44,8 +44,8 @@ namespace Walden_Hospital
             _PatientList = new ObservableCollection<Patient>();
             CreateCommand = new RelayCommand(opretPatientButton, () => true);
 
-            
-            _PatientList.Add(new Patient("name", "vej", 13, 11, 1231123,new Relative(12312,"hans", "gift"), new IDCard(111, true) ));
+            _PatientList.Add(new Patient("hans", "skole", 13, 123231, 23232, new Relative(23223, "hans", "slapper"), new IDCard(333, true)));
+            _PatientList.Add(new Patient("name", "vej", 13, 11, 1231123,new Relative(12312,"aaa", "gift"), new IDCard(111, true) ));
             _SelectedPatient = _PatientList[0];
 
             //_IDCardObj = IDCardObj;
@@ -68,14 +68,24 @@ namespace Walden_Hospital
                     return "";
                 }
                 return _SelectedPatient.Name;
+                
             }
-            set => _Name = value;
+            set
+            {
+                _Name = value;
+                OnPropertyChanged(nameof(PatientList));
+            }
+
         }
 
         public int PatientTlf
         {
             get => _SelectedPatient.Tlf;
-            set => _TLF = value;
+            set
+            {
+                _TLF = value; 
+                OnPropertyChanged();
+            }
         }
 
         public string PatientAdresse
@@ -145,6 +155,14 @@ namespace Walden_Hospital
             {
                 _SelectedPatient = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(PatientNavn));
+                OnPropertyChanged(nameof(PatientAdresse));
+                OnPropertyChanged(nameof(PatientCPR));
+                OnPropertyChanged(nameof(IDCardNumber));
+                OnPropertyChanged(nameof(IDCardValidity));
+                OnPropertyChanged(nameof(RelativeForhold));
+                OnPropertyChanged(nameof(RelativeName));
+                OnPropertyChanged(nameof(RelativeTlf));
             }
         }
 

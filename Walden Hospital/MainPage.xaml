@@ -32,19 +32,19 @@
         <!--CPR-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="CPR"/>
-                <TextBox Padding="5" Width="300" Margin="500 0 0 0"/>
+                <TextBox Text="{Binding PatientCPR, Mode=TwoWay}" Padding="5" Width="300" Margin="500 0 0 0"/>
             </StackPanel>
 
         <!--tlf-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="tlf"/>
-            <TextBox Padding="5" Width="300" Margin="537 0 0 0"/>
+            <TextBox Text="{Binding PatientTlf, Mode=TwoWay}" Padding="5" Width="300" Margin="537 0 0 0"/>
         </StackPanel>
 
         <!--adresse-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="adresse"/>
-            <TextBox Padding="5" Width="300" Margin="440 0 0 0"/>
+            <TextBox Text="{Binding PatientAdresse, Mode=TwoWay}" Padding="5" Width="300" Margin="440 0 0 0"/>
         </StackPanel>
 
         <!--Date of birth-->
@@ -56,19 +56,19 @@
         <!--Relative Name-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 10" >
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="Relative Name"/>
-            <TextBox Padding="5" Width="300" Margin="322 0 0 0"/>
+            <TextBox Text="{Binding RelativeName, Mode=TwoWay}" Padding="5" Width="300" Margin="322 0 0 0"/>
         </StackPanel>
 
             <!--Relative Tlf-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="Relative Tlf"/>
-            <TextBox Padding="5" Width="300" Margin="385 0 0 0"/>
+            <TextBox Text="{Binding RelativeTlf, Mode=TwoWay}" Padding="5" Width="300" Margin="385 0 0 0"/>
         </StackPanel>
 
             <!--Relative Relation-->
         <StackPanel Orientation="Horizontal">
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="Relative Relation"/>
-            <TextBox Padding="5" Width="300" Margin="285 0 0 0"/>
+            <TextBox Text="{Binding RelativeForhold, Mode=TwoWay}" Padding="5" Width="300" Margin="285 0 0 0"/>
         </StackPanel>
 
             <!--Køn-->
@@ -104,7 +104,7 @@
             <!--Card ID-->
         <StackPanel Orientation="Horizontal">
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="Card ID"/>
-            <TextBox Padding="5" Width="300" Margin="450 0 0 0"/>
+            <TextBox Text="{Binding IDCardNumber, Mode=TwoWay}" Padding="5" Width="300" Margin="450 0 0 0"/>
         </StackPanel>
 
             <!--ID kort Validity-->
@@ -127,13 +127,14 @@
             <!--Liste af Patiner-->
         </StackPanel>
         <ListView Grid.Column="1"
-                  SelectedItem="{Binding SelectedItem}">
+                  ItemsSource="{Binding PatientList}"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                   
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Image Source="Assets/LockScreenLogo.png"/>
-                        <TextBlock Text="test"/>
+                        <TextBlock Text="{Binding Cpr}"/>
+                        <TextBlock Text="{Binding Name}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
