@@ -6,8 +6,140 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+<Page.DataContext>
+    <local:OpretPatientViewModel/>
+</Page.DataContext>
+    
+    <Grid Padding="10">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+    <StackPanel Background="BlanchedAlmond">
+        
+        <!--TITEL-->
+        <StackPanel Margin="0 0 0 10">
+            <TextBlock FontSize="60" HorizontalAlignment="Center" Text="Registrer"/>
+        </StackPanel>
+        
+        <!--Navn-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="Navn"/>
+            <TextBox Padding="5" Width="300" Margin="480 0 0 0" Text="{Binding PatientNavn, Mode=TwoWay}"/>
+        </StackPanel>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--CPR-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="CPR"/>
+                <TextBox Padding="5" Width="300" Margin="500 0 0 0"/>
+            </StackPanel>
 
+        <!--tlf-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="tlf"/>
+            <TextBox Padding="5" Width="300" Margin="537 0 0 0"/>
+        </StackPanel>
+
+        <!--adresse-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="adresse"/>
+            <TextBox Padding="5" Width="300" Margin="440 0 0 0"/>
+        </StackPanel>
+
+        <!--Date of birth-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBlock FontSize="40" Margin="0 0 10 0" Text="Date of birth"/>
+            <DatePicker FontSize="40" Width="500" Margin="300 0 0 0"/>
+        </StackPanel>
+        
+        <!--Relative Name-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10" >
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="Relative Name"/>
+            <TextBox Padding="5" Width="300" Margin="322 0 0 0"/>
+        </StackPanel>
+
+            <!--Relative Tlf-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="Relative Tlf"/>
+            <TextBox Padding="5" Width="300" Margin="385 0 0 0"/>
+        </StackPanel>
+
+            <!--Relative Relation-->
+        <StackPanel Orientation="Horizontal">
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="Relative Relation"/>
+            <TextBox Padding="5" Width="300" Margin="285 0 0 0"/>
+        </StackPanel>
+
+            <!--Køn-->
+        <StackPanel Orientation="Horizontal">
+            <TextBlock FontSize="40" Margin="0 0 100 0" Text="Køn"/>
+            <ToggleButton Content="Mand" Margin="470 0 0 0"/>
+            <ToggleButton Content="Kvinde" Margin="10 10 0 10"/>
+        </StackPanel>
+
+        <!--Payment info--><!--
+        <StackPanel Orientation="Horizontal">
+            <TextBlock FontSize="40" Margin="0 0 10 0" Text="Betalings Info"/>
+            <ComboBox SelectedIndex="1" Margin="0 0 0 10">
+                <ComboBoxItem Content="Credit card"/>
+                <ComboBoxItem Content="Insurance"/>
+            </ComboBox>
+        </StackPanel>-->
+
+        <!--Insurance Provider-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBlock FontSize="40" Margin="0 0 10 0" Text="Insurance Provider"/>
+            <TextBox Padding="5" Width="300" Margin="300 0 0 0"/>
+        </StackPanel>
+
+        <!--Insurance policy-->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBlock FontSize="40" Margin="0 0 10 0" Text="Insurance policy"/>
+            <Button Content="Verify Insurance" Margin="210 0 0 0" Height="50" />
+                <TextBox Padding="5" Width="300" Margin="10 0 0 0"/>
+            
+        </StackPanel>
+
+            <!--Card ID-->
+        <StackPanel Orientation="Horizontal">
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="Card ID"/>
+            <TextBox Padding="5" Width="300" Margin="450 0 0 0"/>
+        </StackPanel>
+
+            <!--ID kort Validity-->
+        <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+            <TextBlock FontSize="40" Margin="0 0 60 0" Text="ID card valid till"/>
+            <DatePicker FontSize="40" Width="500" Margin="210 0 0 0"/>
+        </StackPanel>
+
+            
+
+            <!-- Knapper -->
+        <StackPanel Orientation="Horizontal" Margin="0 50">
+                <Button Content="Gem" Width="100" Height="50" Margin="300 0 70 0" Command="{Binding OpretPatientCommand}"/>
+            <Button Content="Udskriv" Width="100" Height="50" />
+            
+        </StackPanel>
+        
+
+
+            <!--Liste af Patiner-->
+        </StackPanel>
+        <ListView Grid.Column="1"
+                  SelectedItem="{Binding SelectedItem}">
+                  
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Image Source="Assets/LockScreenLogo.png"/>
+                        <TextBlock Text="test"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+            
+        </ListView>
     </Grid>
+
 </Page>
