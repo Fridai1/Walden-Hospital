@@ -17,12 +17,11 @@ namespace Walden_Hospital
         private IDCardKatalog _IdCarKatalog;
         private PatientKatalog _PatientKatalog;
         private RelativeKatalog _relativeKatalog;
-
         private Patient _SelectedPatient;
         private string _Name;
         private string _Adresse;
         private int _TLF;
-        private int _DOB;
+        private long _DOB;
         private long _CPR;
         private string _RName;
         private int _RTlf;
@@ -31,6 +30,7 @@ namespace Walden_Hospital
         private bool _Validity;
         private ObservableCollection<Patient> _PatientList;
         private RelayCommand CreateCommand;
+       
         #endregion
 
         #region Constructor
@@ -41,11 +41,13 @@ namespace Walden_Hospital
             _IdCarKatalog = new IDCardKatalog();
             _relativeKatalog = new RelativeKatalog();
             _PatientKatalog = new PatientKatalog();
+            ;
             _PatientList = new ObservableCollection<Patient>();
             CreateCommand = new RelayCommand(opretPatientButton, () => true);
 
-            _PatientList.Add(new Patient("hans", "skole", 13, 123231, 23232, new Relative(23223, "hans", "slapper"), new IDCard(333, true)));
-            _PatientList.Add(new Patient("name", "vej", 13, 11, 1231123,new Relative(12312,"aaa", "gift"), new IDCard(111, true) ));
+            _PatientList.Add(new Patient("hans", "skole", 12091982, 123231, 23232, new Relative(23223, "hans", "slapper"), new IDCard(333, true)));
+            _PatientList.Add(new Patient("name", "vej", 09022012, 11, 1231123,new Relative(12312,"aaa", "gift"), new IDCard(111, true) ));
+            _PatientKatalog.OpretPatient(new Patient("lars","adressevej", 19071032,2323232,666,new Relative(123,"far","far"),new IDCard(876,true) ));
             _SelectedPatient = _PatientList[0];
 
             //_IDCardObj = IDCardObj;
@@ -62,30 +64,14 @@ namespace Walden_Hospital
         
         public string PatientNavn
         {
-            get {
-                if (_SelectedPatient == null)
-                {
-                    return "";
-                }
-                return _SelectedPatient.Name;
-                
-            }
-            set
-            {
-                _Name = value;
-                OnPropertyChanged(nameof(PatientList));
-            }
-
+            get => _SelectedPatient.Name;
+            set => _Name = value;
         }
 
         public int PatientTlf
         {
             get => _SelectedPatient.Tlf;
-            set
-            {
-                _TLF = value; 
-                OnPropertyChanged();
-            }
+            set => _TLF = value;
         }
 
         public string PatientAdresse
@@ -100,7 +86,7 @@ namespace Walden_Hospital
             set => _CPR = value;
         }
 
-        public int PatientDateOfBirth
+        public long PatientDateOfBirth
         {
             get => _SelectedPatient.DateOfBirth;
             set => _DOB = value;
@@ -163,6 +149,7 @@ namespace Walden_Hospital
                 OnPropertyChanged(nameof(RelativeForhold));
                 OnPropertyChanged(nameof(RelativeName));
                 OnPropertyChanged(nameof(RelativeTlf));
+                OnPropertyChanged(nameof(PatientDateOfBirth));
             }
         }
 
@@ -172,7 +159,24 @@ namespace Walden_Hospital
 
         public void opretPatientButton()
         {
-            _PatientKatalog.OpretPatient(new Patient(_Name,_Adresse, _DOB, _TLF, _CPR,new Relative(_TLF,_RName,_RRelation), new IDCard(_IDNR,_Validity) ));
+            // Her tjekker vi om patienten er over 18. _DOB er en int, som kunne se sådanne ud: 12122000
+            // det er et tal som er svært at tjekke om patienten er 18 eller ej, så vi converter det til en string
+            // og tager de 4 sidste tegn og laver dem tilbage til en int - nu har vi istedet for 12122000 - 2000
+            // som er et tal vi kan arbejde med.
+            string str = _DOB.ToString();
+            string last4 = str.Substring(4, 4);
+            int last4Int = int.Parse(last4);
+
+            // inde i patient er der 2 constructere en for hvis man er over 18 og en hvis man er under. her hvis patienten er under 18 bruger vi den tilsvarende.
+            if (2017 - last4Int < 18)
+            {
+                _PatientKatalog.OpretPatient(new Patient(_Name, _Adresse, _DOB, _TLF, _CPR, new Relative(_TLF, _RName, _RRelation), new IDCard(_IDNR, _Validity)));
+                OnPropertyChanged(nameof(PatientList));
+            }
+
+            _PatientKatalog.OpretPatient(new Patient(_Name,_Adresse,_DOB,_TLF, _CPR,new IDCard(_IDNR,_Validity)));
+            OnPropertyChanged(nameof(PatientList));
+            
         }
 
         public ICommand OpretPatientCommand
@@ -186,10 +190,16 @@ namespace Walden_Hospital
 
         public ObservableCollection<Patient> PatientList
         {
-            get {
+            get
+            {
+                
                 foreach (KeyValuePair<long, Patient> patient in _PatientKatalog.GetKatalog)
                 {
-                    _PatientList.Add(patient.Value);
+                    if (!_PatientList.Contains(patient.Value))
+                    {
+                        _PatientList.Add(patient.Value);
+                    }
+                   
                 }
                 return _PatientList;
             }
