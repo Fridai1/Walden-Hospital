@@ -197,15 +197,12 @@ namespace Walden_Hospital
 
         public void opretPatientButton()
         {
-            // Her tjekker vi om patienten er over 18. _DOB er en int, som kunne se sådanne ud: 12122000
-            // det er et tal som er svært at tjekke om patienten er 18 eller ej, så vi converter det til en string
-            // og tager de 4 sidste tegn og laver dem tilbage til en int - nu har vi istedet for 12122000 - 2000
-            // som er et tal vi kan arbejde med.
+           
             string str = _DOB.ToString();
             string last4 = str.Substring(4, 4);
             int last4Int = int.Parse(last4);
 
-            // inde i patient er der 2 constructere en for hvis man er over 18 og en hvis man er under. her hvis patienten er under 18 bruger vi den tilsvarende.
+           
             if (2017 - last4Int < 18)
             {
                 _IdCarKatalog.OpretIDCard(new IDCard(_IDNR, _Validity));

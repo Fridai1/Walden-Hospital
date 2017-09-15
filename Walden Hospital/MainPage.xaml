@@ -22,7 +22,8 @@
         <StackPanel Margin="0 0 0 10">
             <TextBlock FontSize="60" HorizontalAlignment="Center" Text="Registrer"/>
         </StackPanel>
-        <!--TITEL-->
+        
+        <!--Under titel-->
         <StackPanel Margin="0 0 0 10">
             <TextBlock FontSize="20" HorizontalAlignment="Center" Text="Udfyld alle felter"/>
         </StackPanel>
