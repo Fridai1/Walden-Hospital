@@ -11,7 +11,8 @@ namespace Walden_Hospital
         private long _CPR;
         private Relative _Relative;
         private IDCard _IdCard;
-        public Patient(string name, string adresse, long dateOfBirth, int tlf, long cpr, Relative Relative, IDCard Idcard)
+        private string _Køn;
+        public Patient(string name, string adresse, long dateOfBirth, int tlf, long cpr, string køn, Relative Relative, IDCard Idcard)
         {
             _Name = name;
             _Adresse = adresse;
@@ -20,9 +21,10 @@ namespace Walden_Hospital
             _CPR = cpr;
             _Relative = Relative;
             _IdCard = Idcard;
+            _Køn = køn;
         }
 
-        public Patient(string name, string adresse, long dateOfBirth, int tlf, long cpr, IDCard idcard)
+        public Patient(string name, string adresse, long dateOfBirth, int tlf, long cpr, string køn, IDCard idcard)
         {
             _Name = name;
             _Adresse = adresse;
@@ -30,6 +32,7 @@ namespace Walden_Hospital
             _Tlf = tlf;
             _CPR = cpr;
             _IdCard = idcard;
+            _Køn = køn;
         }
 
         public string Name
@@ -72,6 +75,12 @@ namespace Walden_Hospital
         {
             get => _IdCard;
             set => _IdCard = value;
+        }
+
+        public string køn
+        {
+            get => _Køn;
+            set => _Køn = value;
         }
 
        

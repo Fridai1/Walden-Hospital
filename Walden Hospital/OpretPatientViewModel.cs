@@ -27,9 +27,13 @@ namespace Walden_Hospital
         private int _RTlf;
         private string _RRelation;
         private long _IDNR;
-        private bool _Validity;
+        private string _Validity;
+        private string _Køn;
         private ObservableCollection<Patient> _PatientList;
-        private RelayCommand CreateCommand;
+        private RelayCommand _CreateCommand;
+        private RelayCommand _deteCommand;
+        private RelayCommand _CheckInsuranceCommand;
+        private Insurance _CheckInsurance;
        
         #endregion
 
@@ -41,13 +45,17 @@ namespace Walden_Hospital
             _IdCarKatalog = new IDCardKatalog();
             _relativeKatalog = new RelativeKatalog();
             _PatientKatalog = new PatientKatalog();
+            _CheckInsurance = new Insurance(_CPR)
+            
             ;
             _PatientList = new ObservableCollection<Patient>();
-            CreateCommand = new RelayCommand(opretPatientButton, () => true);
+            _CreateCommand = new RelayCommand(opretPatientButton, () => true);
+            _deteCommand = new RelayCommand(DeletePatientButton,() => true);
+            _CheckInsuranceCommand = new RelayCommand(CheckInsuranceButton, () => true);
 
-            _PatientList.Add(new Patient("hans", "skole", 12091982, 123231, 23232, new Relative(23223, "hans", "slapper"), new IDCard(333, true)));
-            _PatientList.Add(new Patient("name", "vej", 09022012, 11, 1231123,new Relative(12312,"aaa", "gift"), new IDCard(111, true) ));
-            _PatientKatalog.OpretPatient(new Patient("lars","adressevej", 19071032,2323232,666,new Relative(123,"far","far"),new IDCard(876,true) ));
+            _PatientList.Add(new Patient("hans", "skole", 12091982, 123231, 1, "mand", new Relative(23223, "hans", "slapper"), new IDCard(333, "19 12 1911")));
+            _PatientList.Add(new Patient("name", "vej", 09022012, 11, 2, "Kvinde",new Relative(12312,"aaa", "gift"), new IDCard(111, "19 12 2012") ));
+            _PatientKatalog.OpretPatient(new Patient("lars","adressevej", 19071032,2323232,666, "Mand",new Relative(123,"far","far"),new IDCard(876,"11 02 1988") ));
             _SelectedPatient = _PatientList[0];
 
             //_IDCardObj = IDCardObj;
@@ -91,6 +99,12 @@ namespace Walden_Hospital
             get => _SelectedPatient.DateOfBirth;
             set => _DOB = value;
         }
+
+        public string PatientKøn
+        {
+            get => _SelectedPatient.køn;
+            set => _Køn = value;
+        }
         #endregion
 
         #region IDCard Properties
@@ -104,7 +118,7 @@ namespace Walden_Hospital
             set => _IDNR = value;
         }
 
-        public bool IDCardValidity
+        public string IDCardValidity
         {
             get => _SelectedPatient.IDCard.Validity;
             set => _Validity = value;
@@ -132,6 +146,20 @@ namespace Walden_Hospital
         }
         #endregion
 
+        #region Insurance Properties
+
+        public string InsuranceProvider
+        {
+            get => _CheckInsurance.InsuranceCheck;
+        }
+
+        public string InsuranceDækning
+        {
+            get => _CheckInsurance.InsuranceDækning;
+        }
+
+        #endregion
+
         #region List Properties
 
         public Patient SelectedItem
@@ -150,6 +178,7 @@ namespace Walden_Hospital
                 OnPropertyChanged(nameof(RelativeName));
                 OnPropertyChanged(nameof(RelativeTlf));
                 OnPropertyChanged(nameof(PatientDateOfBirth));
+                OnPropertyChanged(nameof(PatientKøn));
             }
         }
 
@@ -170,20 +199,50 @@ namespace Walden_Hospital
             // inde i patient er der 2 constructere en for hvis man er over 18 og en hvis man er under. her hvis patienten er under 18 bruger vi den tilsvarende.
             if (2017 - last4Int < 18)
             {
-                _PatientKatalog.OpretPatient(new Patient(_Name, _Adresse, _DOB, _TLF, _CPR, new Relative(_TLF, _RName, _RRelation), new IDCard(_IDNR, _Validity)));
+                _IdCarKatalog.OpretIDCard(new IDCard(_IDNR, _Validity));
+                _relativeKatalog.OpretRelative(_CPR,new Relative(_RTlf,_RName,_RRelation));
+                _PatientKatalog.OpretPatient(new Patient(_Name, _Adresse, _DOB, _TLF, _CPR, _Køn, new Relative(_TLF, _RName, _RRelation), new IDCard(_IDNR, _Validity)));
+                OnPropertyChanged(nameof(PatientList));
+            }
+            else
+            {
+                _PatientKatalog.OpretPatient(new Patient(_Name, _Adresse, _DOB, _TLF, _CPR, _Køn, new IDCard(_IDNR, _Validity)));
+                _IdCarKatalog.OpretIDCard(new IDCard(_IDNR, _Validity));
                 OnPropertyChanged(nameof(PatientList));
             }
 
-            _PatientKatalog.OpretPatient(new Patient(_Name,_Adresse,_DOB,_TLF, _CPR,new IDCard(_IDNR,_Validity)));
-            OnPropertyChanged(nameof(PatientList));
             
+            
+        }
+
+        public void CheckInsuranceButton()
+        {
+            Insurance check = new Insurance(_CPR);
+            OnPropertyChanged(nameof(InsuranceDækning));
+            OnPropertyChanged(nameof(InsuranceProvider));
+            
+        }
+
+        public void DeletePatientButton()
+        {
+            _PatientKatalog.DeletePatient(_SelectedPatient);
+            OnPropertyChanged(nameof(PatientList));
         }
 
         public ICommand OpretPatientCommand
         {
-            get => CreateCommand;
+            get => _CreateCommand;
         }
 
+        public ICommand DeletePatientCommand
+        {
+            get => _deteCommand;
+        }
+
+        public ICommand CheckInsuranceCommand
+        {
+            get => _CheckInsuranceCommand;
+        }
         #endregion
 
         #region Observable list

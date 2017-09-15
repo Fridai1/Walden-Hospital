@@ -72,10 +72,9 @@
         </StackPanel>
 
             <!--Køn-->
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
             <TextBlock FontSize="40" Margin="0 0 100 0" Text="Køn"/>
-            <ToggleButton Content="Mand" Margin="470 0 0 0"/>
-            <ToggleButton Content="Kvinde" Margin="10 10 0 10"/>
+            <TextBox Padding="5" Width="300" Margin="467 0 0 0" Text="{Binding PatientKøn, Mode=TwoWay}"/>
         </StackPanel>
 
         <!--Payment info--><!--
@@ -96,7 +95,7 @@
         <!--Insurance policy-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
             <TextBlock FontSize="40" Margin="0 0 10 0" Text="Insurance policy"/>
-            <Button Content="Verify Insurance" Margin="210 0 0 0" Height="50" />
+            <Button Content="Verify Insurance" Margin="210 0 0 0" Height="50" Command="{Binding CheckInsuranceCommand, Mode=TwoWay}"/>
                 <TextBox Padding="5" Width="300" Margin="10 0 0 0"/>
             
         </StackPanel>
@@ -110,7 +109,7 @@
             <!--ID kort Validity-->
         <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="ID card valid till"/>
-            <DatePicker FontSize="40" Width="500" Margin="210 0 0 0"/>
+            <TextBox Width="300" Padding="5" Margin="310 0 0 0" Text="{Binding IDCardValidity, Mode=TwoWay}"/>
         </StackPanel>
 
             
@@ -118,9 +117,10 @@
             <!-- Knapper -->
         <StackPanel Orientation="Horizontal" Margin="0 50">
                 <Button Content="Gem" Width="100" Height="50" Margin="300 0 70 0" Command="{Binding OpretPatientCommand}"/>
-            <Button Content="Udskriv" Width="100" Height="50" />
-            
-        </StackPanel>
+            <Button Content="Udskriv ID Kort" Width="100" Height="50" />
+            <Button Content="Delete" Width="100" Height="50" Margin="80 0 0 0" Command="{Binding DeletePatientCommand}" />
+
+            </StackPanel>
         
 
 

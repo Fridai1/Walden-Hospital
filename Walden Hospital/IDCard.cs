@@ -3,9 +3,9 @@
     public class IDCard
     {
         private long _CardID;
-        private bool _Validity;
+        private string _Validity;
 
-        public IDCard(long IDnr, bool valid)
+        public IDCard(long IDnr, string valid)
         {
             _CardID = IDnr;
             _Validity = valid;
@@ -17,7 +17,7 @@
             set => _CardID = value;
         }
 
-        public bool Validity
+        public string Validity
         {
             get => _Validity;
             set => _Validity = value;
