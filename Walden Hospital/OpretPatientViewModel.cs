@@ -34,6 +34,9 @@ namespace Walden_Hospital
         private RelayCommand _deteCommand;
         private RelayCommand _CheckInsuranceCommand;
         private Insurance _CheckInsurance;
+        private string _Dækning = null;
+        private string _Provider = null;
+        
        
         #endregion
 
@@ -45,16 +48,18 @@ namespace Walden_Hospital
             _IdCarKatalog = new IDCardKatalog();
             _relativeKatalog = new RelativeKatalog();
             _PatientKatalog = new PatientKatalog();
-            _CheckInsurance = new Insurance(_CPR)
+            _CheckInsurance = new Insurance();
+
             
-            ;
+            
+            
             _PatientList = new ObservableCollection<Patient>();
             _CreateCommand = new RelayCommand(opretPatientButton, () => true);
             _deteCommand = new RelayCommand(DeletePatientButton,() => true);
             _CheckInsuranceCommand = new RelayCommand(CheckInsuranceButton, () => true);
 
-            _PatientList.Add(new Patient("hans", "skole", 12091982, 123231, 1, "mand", new Relative(23223, "hans", "slapper"), new IDCard(333, "19 12 1911")));
-            _PatientList.Add(new Patient("name", "vej", 09022012, 11, 2, "Kvinde",new Relative(12312,"aaa", "gift"), new IDCard(111, "19 12 2012") ));
+            _PatientList.Add(new Patient("Hans Larsen", "Skolevej 1", 12091982, 123231, 1, "mand", new Relative(0, "", ""), new IDCard(333, "19 12 1911")));
+            _PatientList.Add(new Patient("Grete Petersen", "Algade 54", 09022012, 11, 2, "Kvinde",new Relative(12312,"Jørgen", "Far"), new IDCard(111, "19 12 2012") ));
             _PatientKatalog.OpretPatient(new Patient("lars","adressevej", 19071032,2323232,666, "Mand",new Relative(123,"far","far"),new IDCard(876,"11 02 1988") ));
             _SelectedPatient = _PatientList[0];
 
@@ -150,12 +155,12 @@ namespace Walden_Hospital
 
         public string InsuranceProvider
         {
-            get => _CheckInsurance.InsuranceCheck;
+            get => _Provider;
         }
 
         public string InsuranceDækning
         {
-            get => _CheckInsurance.InsuranceDækning;
+            get => _Dækning;
         }
 
         #endregion
@@ -168,6 +173,8 @@ namespace Walden_Hospital
             set
             {
                 _SelectedPatient = value;
+                _Dækning = null;
+                _Provider = null;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(PatientNavn));
                 OnPropertyChanged(nameof(PatientAdresse));
@@ -179,6 +186,8 @@ namespace Walden_Hospital
                 OnPropertyChanged(nameof(RelativeTlf));
                 OnPropertyChanged(nameof(PatientDateOfBirth));
                 OnPropertyChanged(nameof(PatientKøn));
+                OnPropertyChanged(nameof(InsuranceDækning));
+                OnPropertyChanged(nameof(InsuranceProvider));
             }
         }
 
@@ -214,31 +223,33 @@ namespace Walden_Hospital
             
             
         }
-
+         //Knap for insurance
         public void CheckInsuranceButton()
         {
-            Insurance check = new Insurance(_CPR);
+            _Provider = _CheckInsurance.InsuranceCheck(_SelectedPatient.Cpr);
+            _Dækning = _CheckInsurance.InsuranceDækning(_SelectedPatient.Cpr);
             OnPropertyChanged(nameof(InsuranceDækning));
             OnPropertyChanged(nameof(InsuranceProvider));
             
         }
-
+        // Delete knap - Virker ikke -
         public void DeletePatientButton()
         {
             _PatientKatalog.DeletePatient(_SelectedPatient);
             OnPropertyChanged(nameof(PatientList));
         }
 
+        // Opret Patient Command
         public ICommand OpretPatientCommand
         {
             get => _CreateCommand;
         }
-
+        // command for delete - virker ikke -
         public ICommand DeletePatientCommand
         {
             get => _deteCommand;
         }
-
+        // command for check insurance
         public ICommand CheckInsuranceCommand
         {
             get => _CheckInsuranceCommand;

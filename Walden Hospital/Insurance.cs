@@ -2,20 +2,16 @@
 {
     public class Insurance
     {
-        private long _Cpr;
+        
         private string _case;
         private string _Dækning;
         
-        public Insurance(long cpr)
-        {
-            _Cpr = cpr;
-        }
+        
 
-        public string InsuranceCheck
+        public string InsuranceCheck(long CPR)
         {
-            get
-            {
-                switch (_Cpr)
+            
+                switch (CPR)
                 {
                     case 1:
                         _case = "Alka";
@@ -37,21 +33,20 @@
 
                 }
                 return _case;
-            }
+            
         }
 
-        public string InsuranceDækning
+        public string InsuranceDækning(long CPR)
         {
-            get
-            {
-                switch (_Cpr)
+           
+                switch (CPR)
                 {
                     case 1:
                         _Dækning = "100%";
                         break;
 
                     case 2:
-                        _Dækning = "¨75%";
+                        _Dækning = "75%";
                         break;
 
                     case 3:
@@ -66,7 +61,7 @@
 
                 }
                 return _Dækning;
-            }
+            
         }
     }
 }

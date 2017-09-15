@@ -22,8 +22,12 @@
         <StackPanel Margin="0 0 0 10">
             <TextBlock FontSize="60" HorizontalAlignment="Center" Text="Registrer"/>
         </StackPanel>
-        
-        <!--Navn-->
+        <!--TITEL-->
+        <StackPanel Margin="0 0 0 10">
+            <TextBlock FontSize="20" HorizontalAlignment="Center" Text="Udfyld alle felter"/>
+        </StackPanel>
+
+            <!--Navn-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
             <TextBlock FontSize="40" Margin="0 0 60 0" Text="Navn"/>
             <TextBox Padding="5" Width="300" Margin="480 0 0 0" Text="{Binding PatientNavn, Mode=TwoWay}"/>
@@ -89,14 +93,14 @@
         <!--Insurance Provider-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
             <TextBlock FontSize="40" Margin="0 0 10 0" Text="Insurance Provider"/>
-            <TextBox Padding="5" Width="300" Margin="300 0 0 0"/>
+            <TextBox Padding="5" IsReadOnly="True" Width="300" Margin="300 0 0 0" Text="{Binding InsuranceProvider, Mode=TwoWay}"/>
         </StackPanel>
 
         <!--Insurance policy-->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
             <TextBlock FontSize="40" Margin="0 0 10 0" Text="Insurance policy"/>
             <Button Content="Verify Insurance" Margin="210 0 0 0" Height="50" Command="{Binding CheckInsuranceCommand, Mode=TwoWay}"/>
-                <TextBox Padding="5" Width="300" Margin="10 0 0 0"/>
+                <TextBox IsReadOnly="True" Padding="5" Width="300" Margin="10 0 0 0" Text="{Binding InsuranceDækning, Mode=TwoWay}"/>
             
         </StackPanel>
 
